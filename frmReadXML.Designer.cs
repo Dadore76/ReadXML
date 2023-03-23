@@ -39,6 +39,7 @@
             lblStatus = new Label();
             label4 = new Label();
             txtStatus = new TextBox();
+            btnDeserialize = new Button();
             SuspendLayout();
             // 
             // label1
@@ -56,6 +57,7 @@
             txtPath.Name = "txtPath";
             txtPath.Size = new Size(568, 23);
             txtPath.TabIndex = 1;
+            txtPath.Text = "C:\\GitProjects\\ReadXML\\ReadXML\\TestFiles\\ListValues.xml";
             // 
             // btnSearch
             // 
@@ -69,8 +71,7 @@
             // 
             // btnLoad
             // 
-            btnLoad.Enabled = false;
-            btnLoad.Location = new Point(350, 52);
+            btnLoad.Location = new Point(269, 51);
             btnLoad.Name = "btnLoad";
             btnLoad.Size = new Size(75, 23);
             btnLoad.TabIndex = 3;
@@ -148,11 +149,23 @@
             txtStatus.KeyDown += txtStatus_KeyDown;
             txtStatus.Leave += txtStatus_Leave;
             // 
+            // btnDeserialize
+            // 
+            btnDeserialize.Enabled = false;
+            btnDeserialize.Location = new Point(353, 51);
+            btnDeserialize.Name = "btnDeserialize";
+            btnDeserialize.Size = new Size(75, 23);
+            btnDeserialize.TabIndex = 11;
+            btnDeserialize.Text = "Deserialize";
+            btnDeserialize.UseVisualStyleBackColor = true;
+            btnDeserialize.Click += btnDeserialize_Click;
+            // 
             // frmReadXML
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(751, 472);
+            Controls.Add(btnDeserialize);
             Controls.Add(lblStatus);
             Controls.Add(label4);
             Controls.Add(txtStatus);
@@ -184,5 +197,6 @@
         private Label lblStatus;
         private Label label4;
         private TextBox txtStatus;
+        private Button btnDeserialize;
     }
 }

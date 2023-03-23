@@ -1,12 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ListValues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <ListValue Name="Empresa">
-        <Value ValueId="1" Description="Iron" />
-        <Value ValueId="2" Description="Argaex" />
-        <Value ValueId="3" Description="ICA" />
-    </ListValue>
-    <ListValue Name="Estado">
-        <Value ValueId="1" Description="Activo" />
-        <Value ValueId="2" Description="Desactivo" />
-    </ListValue>
-</ListValues>
+<?xml version="1.0" encoding="utf-16"?>
+<Lists xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ListValues>
+        <ListValue Name="Empresa">
+            <Values>
+                <Value ValueId="1" Description="Iron" />
+                <Value ValueId="2" Description="Argaex" />
+                <Value ValueId="3" Description="ICA" />
+            </Values>
+        </ListValue>
+        <ListValue Name="Estado">
+            <Values>
+                <Value ValueId="1" Description="Activo" />
+                <Value ValueId="2" Description="Desactivo" />
+            </Values>
+        </ListValue>
+    </ListValues>
+</Lists>

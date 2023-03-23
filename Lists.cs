@@ -2,12 +2,15 @@
 
 namespace ReadXML
 {
-    [XmlRoot("ListValues")]
-    public class Lists
+    [SerializableAttribute()]
+    [XmlTypeAttribute(AnonymousType = true)]
+    [XmlRootAttribute(Namespace = "", IsNullable = false)]
+    public partial class Lists
     {
-        List<ListValue> listValues = new();
+        List<ListValue> listValues;
 
-        [XmlElement("ListValue")]
+        [XmlArrayAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlArrayItemAttribute("ListValue", typeof(ListValue), Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
         public List<ListValue> ListValues
         {
             get { return this.listValues; }
@@ -15,40 +18,45 @@ namespace ReadXML
         }
     }
 
-    public class ListValue
+    [SerializableAttribute()]
+    [XmlTypeAttribute(AnonymousType = true)]
+    public partial class ListValue
     {
-        string name = string.Empty;
-        List<Value> values = new();
+        string name;
+        //List<Value> values;
 
-        [XmlAttribute("Name")]
+        [XmlAttributeAttribute()]
         public string Name
         {
             get { return this.name; }
             set { this.name = value; }
         }
 
-        [XmlElement("Value")]
-        public List<Value> Values
-        {
-            get { return this.values; }
-            set { this.values = value; }
-        }
+        //[XmlArrayAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        //[XmlArrayItemAttribute("Value", typeof(Value), Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+        //public List<Value> Values
+        //{
+        //    get { return this.values; }
+        //    set { this.values = value; }
+        //}
 
     }
 
-    public class Value
+    [SerializableAttribute()]
+    [XmlTypeAttribute(AnonymousType = true)]
+    public partial class Value
     {
-        string valueID = string.Empty;
-        string description = string.Empty;
+        string valueId;
+        string description;
 
-        [XmlAttribute("ValueId")]
-        public string ValueID
+        [XmlAttributeAttribute()]
+        public string ValueId
         {
-            get { return this.valueID; }
-            set { this.valueID = value;}
+            get { return this.valueId; }
+            set { this.valueId = value;}
         }
 
-        [XmlAttribute("Description")]
+        [XmlAttributeAttribute()]
         public string Description
         {
             get { return this.description; }
