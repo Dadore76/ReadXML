@@ -9,17 +9,27 @@ namespace ReadXML
 {
     static class Deserializer
     {
-        public static T XmlDeserializeFromString<T>(string xmlFile)
+        public static T Load<T>(string xmlFile)
         {
-            T result;
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            
-            using (StreamReader reader = new StreamReader(xmlFile, Encoding.UTF8, true))
+            T result = default(T);
+
+            if (string.IsNullOrEmpty(xmlFile))
+                throw new ArgumentNullException("xmlFile", "Xml File can't be null or Empty.");
+
+            try
             {
-                result = (T)serializer.Deserialize(reader);
+                using (TextReader reader = new StringReader(xmlFile))
+                {
+                    var serializer = new XmlSerializer(typeof(T));
+                    result = (T)serializer.Deserialize(reader);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Reading File Error: {0} [{1}]", ex.Message, ex.InnerException.Message), ex);
             }
 
-            return result;
+            return result != null ? result : Activator.CreateInstance<T>();
         }
     }
 }

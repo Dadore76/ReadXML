@@ -1,4 +1,5 @@
 using System.Data;
+using System.Xml.Serialization;
 
 namespace ReadXML
 {
@@ -12,6 +13,21 @@ namespace ReadXML
         public frmReadXML()
         {
             InitializeComponent();
+            MessageBox.Show(txtCompany.Location.ToString() + Environment.NewLine + txtCompany.Top.ToString() + Environment.NewLine + txtCompany.Left.ToString());
+            //lists = new Lists();
+            //lists.ListValues = new List<ListValue>();
+            //ListValue l1 = new ListValue { Name = "Empresas" };
+            //ListValue l2 = new ListValue { Name = "Status" };
+
+            //lists.ListValues.Add(l1);
+            //lists.ListValues.Add(l2);
+
+            //string filePath = @"C:\GitProjects\ReadXML\ReadXML\TestFiles\SerializeFile.xml";
+
+            //XmlSerializer ser = new XmlSerializer(typeof(Lists));
+            //TextWriter writer = new StreamWriter(filePath);
+            //ser.Serialize(writer, lists);
+            //writer.Close();
         }
 
         #region Events
@@ -42,18 +58,25 @@ namespace ReadXML
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtPath.Text))
+            {
+                throw new Exception("Should select a file.");
+            }
+
+            string text = File.ReadAllText(txtPath.Text);
+
+            rtxFileLoaded.Text = text;
+            btnDeserialize.Enabled = true;
+        }
+
+        private void btnDeserialize_Click(object sender, EventArgs e)
+        {
             try
             {
-                if (string.IsNullOrEmpty(txtPath.Text))
-                {
-                    throw new Exception("Should select a file.");
-                }
+                lists = Deserializer.Load<Lists>(txtPath.Text);
 
-                string text = File.ReadAllText(txtPath.Text);
-
-                rtxFileLoaded.Text = text;
-
-                lists = Deserializer.XmlDeserializeFromString<Lists>(txtPath.Text);
+                if (lists.ListValues.Count == 0)
+                    throw new Exception("The lists are empty.");
 
                 txtCompany.Enabled = true;
                 txtStatus.Enabled = true;
@@ -63,8 +86,6 @@ namespace ReadXML
             {
                 MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, "A error has ocurred");
             }
-
-            
         }
 
         #endregion
@@ -84,7 +105,7 @@ namespace ReadXML
             if (valueSelected != null)
             {
                 txtCompany.Text = valueSelected.Description;
-                ctr.Text = valueSelected.ValueID;
+                ctr.Text = valueSelected.ValueId;
 
                 valueSelected = null;
             }
@@ -115,7 +136,7 @@ namespace ReadXML
             if (valueSelected != null)
             {
                 txtStatus.Text = valueSelected.Description;
-                ctr.Text = valueSelected.ValueID;
+                ctr.Text = valueSelected.ValueId;
 
                 valueSelected = null;
             }
@@ -187,14 +208,14 @@ namespace ReadXML
         {
             ListValue retval = null;
 
-            foreach (ListValue listValue in lists.ListValues)
-            {
-                if (listValue.Name == listName)
-                {
-                    retval = listValue;
-                    break;
-                }
-            }
+            //foreach (ListValue listValue in lists.ListValues)
+            //{
+            //    if (listValue.Name == listName)
+            //    {
+            //        retval = listValue;
+            //        break;
+            //    }
+            //}
 
             return retval;
         }
@@ -235,17 +256,17 @@ namespace ReadXML
         {
             DataTable dt = new DataTable();
 
-            dt.Columns.Add("Id", typeof(string));
-            dt.Columns.Add(listValue.Name, typeof(string));
+            //dt.Columns.Add("Id", typeof(string));
+            //dt.Columns.Add(listValue.Name, typeof(string));
 
-            foreach (Value value in listValue.Values)
-            {
-                DataRow row = dt.NewRow();
-                row[0] = value.ValueID;
-                row[1] = value.Description;
+            //foreach (Value value in listValue.Values)
+            //{
+            //    DataRow row = dt.NewRow();
+            //    row[0] = value.ValueId;
+            //    row[1] = value.Description;
 
-                dt.Rows.Add(row);
-            }
+            //    dt.Rows.Add(row);
+            //}
 
             return dt;
         }
@@ -283,7 +304,7 @@ namespace ReadXML
                 {
                     valueSelected = new Value
                     {
-                        ValueID = dgv.SelectedCells[0].Value.ToString(),
+                        ValueId = dgv.SelectedCells[0].Value.ToString(),
                         Description = dgv.SelectedCells[1].Value.ToString()
                     };
 
@@ -301,7 +322,7 @@ namespace ReadXML
             dv.RowFilter = string.Format("Id LIKE '%{0}%' OR {1} LIKE '%{0}%'", txt.Text, listName);
 
         }
-        
+
         #endregion
 
     }
