@@ -18,7 +18,7 @@ namespace ReadXML
 
             try
             {
-                using (TextReader reader = new StringReader(xmlFile))
+                using (StreamReader reader = new StreamReader(xmlFile, Encoding.UTF8, true))
                 {
                     var serializer = new XmlSerializer(typeof(T));
                     result = (T)serializer.Deserialize(reader);

@@ -23,7 +23,7 @@ namespace ReadXML
     public partial class ListValue
     {
         string name;
-        //List<Value> values;
+        List<Value> values;
 
         [XmlAttributeAttribute()]
         public string Name
@@ -32,13 +32,13 @@ namespace ReadXML
             set { this.name = value; }
         }
 
-        //[XmlArrayAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        //[XmlArrayItemAttribute("Value", typeof(Value), Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
-        //public List<Value> Values
-        //{
-        //    get { return this.values; }
-        //    set { this.values = value; }
-        //}
+        [XmlArrayAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [XmlArrayItemAttribute("Value", typeof(Value), Form = System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable = false)]
+        public List<Value> Values
+        {
+            get { return this.values; }
+            set { this.values = value; }
+        }
 
     }
 

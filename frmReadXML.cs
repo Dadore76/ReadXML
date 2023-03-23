@@ -13,7 +13,8 @@ namespace ReadXML
         public frmReadXML()
         {
             InitializeComponent();
-            MessageBox.Show(txtCompany.Location.ToString() + Environment.NewLine + txtCompany.Top.ToString() + Environment.NewLine + txtCompany.Left.ToString());
+            
+            // Serialize File
             //lists = new Lists();
             //lists.ListValues = new List<ListValue>();
             //ListValue l1 = new ListValue { Name = "Empresas" };
@@ -208,14 +209,14 @@ namespace ReadXML
         {
             ListValue retval = null;
 
-            //foreach (ListValue listValue in lists.ListValues)
-            //{
-            //    if (listValue.Name == listName)
-            //    {
-            //        retval = listValue;
-            //        break;
-            //    }
-            //}
+            foreach (ListValue listValue in lists.ListValues)
+            {
+                if (listValue.Name == listName)
+                {
+                    retval = listValue;
+                    break;
+                }
+            }
 
             return retval;
         }
@@ -224,15 +225,15 @@ namespace ReadXML
         {
             DataGridView dgv = new DataGridView();
 
+            // DataSource
+            dgv.DataSource = null;
+            dt = CreateDataTable(listValue);
+            dgv.DataSource = dt;
+
             // Location
             Point txtLocation = txt.Location;
             Point dgvLocation = new Point(txtLocation.X, txtLocation.Y + txt.Height);
             dgv.Location = dgvLocation;
-
-            // Size
-            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv.Width = txt.Width + 15;
-            dgv.Height = txt.Height * 5;
 
             // Design
             dgv.RowHeadersVisible = false;
@@ -240,11 +241,23 @@ namespace ReadXML
             dgv.ScrollBars = ScrollBars.None;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.ColumnHeadersVisible = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            
 
-            // DataSource
-            dgv.DataSource = null;
-            dt = CreateDataTable(listValue);
-            dgv.DataSource = dt;
+            // Size
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.Width = txt.Width + 15;
+            
+            // Row Size
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                row.Height = txt.Height;
+            }
+
+            int RowsVisible = dt.Rows.Count > 5 ? 5 : dt.Rows.Count;
+            dgv.Height = (txt.Height * RowsVisible) + (3 * RowsVisible);
+
 
             // Add Control
             this.Controls.Add(dgv);
@@ -256,17 +269,17 @@ namespace ReadXML
         {
             DataTable dt = new DataTable();
 
-            //dt.Columns.Add("Id", typeof(string));
-            //dt.Columns.Add(listValue.Name, typeof(string));
+            dt.Columns.Add("Id", typeof(string));
+            dt.Columns.Add(listValue.Name, typeof(string));
 
-            //foreach (Value value in listValue.Values)
-            //{
-            //    DataRow row = dt.NewRow();
-            //    row[0] = value.ValueId;
-            //    row[1] = value.Description;
+            foreach (Value value in listValue.Values)
+            {
+                DataRow row = dt.NewRow();
+                row[0] = value.ValueId;
+                row[1] = value.Description;
 
-            //    dt.Rows.Add(row);
-            //}
+                dt.Rows.Add(row);
+            }
 
             return dt;
         }
@@ -321,6 +334,8 @@ namespace ReadXML
             DataView dv = dt.DefaultView;
             dv.RowFilter = string.Format("Id LIKE '%{0}%' OR {1} LIKE '%{0}%'", txt.Text, listName);
 
+            int RowsVisible = dv.Count > 5 ? 5 : dv.Count;
+            dgv.Height = (txt.Height * RowsVisible) + (3 * RowsVisible);
         }
 
         #endregion
