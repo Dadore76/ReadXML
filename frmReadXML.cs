@@ -244,7 +244,6 @@ namespace ReadXML
             dgv.AllowUserToResizeColumns = false;
             dgv.AllowUserToResizeRows = false;
             
-
             // Size
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgv.Width = txt.Width + 15;
